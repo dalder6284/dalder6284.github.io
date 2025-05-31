@@ -114,7 +114,7 @@ export default function Contact() {
               className="mt-1 block w-full border-black border-1"
             ></textarea>
           </label>
-          <div className="mb-4 border border-red-500 p-2">
+          <div className="mb-4 p-2">
             <ReCAPTCHA
               sitekey={RECAPTCHA_SITE_KEY}
               onChange={(token: string | null) => setRecaptchaToken(token)}
