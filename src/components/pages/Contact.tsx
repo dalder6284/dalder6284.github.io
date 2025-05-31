@@ -114,11 +114,12 @@ export default function Contact() {
               className="mt-1 block w-full border-black border-1"
             ></textarea>
           </label>
-          <ReCAPTCHA
-            sitekey={RECAPTCHA_SITE_KEY}
-            onChange={(token: string | null) => setRecaptchaToken(token)}
-            className="mb-4"
-          />
+          <div className="mb-4 border border-red-500 p-2">
+            <ReCAPTCHA
+              sitekey={RECAPTCHA_SITE_KEY}
+              onChange={(token: string | null) => setRecaptchaToken(token)}
+            />
+          </div>
           <button
             type="submit"
             className="inline-block border border-black px-4 py-2 text-sm sm:text-base uppercase tracking-wide hover:bg-black hover:text-white transition-colors"
