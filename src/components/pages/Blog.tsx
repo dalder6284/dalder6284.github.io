@@ -11,7 +11,8 @@ const postFiles = import.meta.glob("../../posts/*.md", {
 type PostMeta = {
   slug: string;
   title: string;
-  date: string;
+  date: Date;
+  preview: string;
 };
 
 export default function Blog() {
@@ -21,7 +22,7 @@ export default function Blog() {
     const loadPosts = async () => {
       const entries = await Promise.all(
         Object.entries(postFiles).map(async ([path, load]) => {
-          const raw = await load();
+          const raw = (await load()) as string;
           const slug = path.split("/").pop()?.replace(".md", "") ?? "unknown";
 
           const { attributes, body } = fm<{ title: string; date: string }>(raw);

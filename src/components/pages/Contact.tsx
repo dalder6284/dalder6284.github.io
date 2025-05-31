@@ -1,9 +1,15 @@
 import { useState } from "react";
 import NavBar from "../NavBar";
 import React from "react";
+import ReCAPTCHA from "react-google-recaptcha";
+
+const RECAPTCHA_SITE_KEY = "6LeJ-FArAAAAACHkRIUIyzierCiN172orNtmUoui";
+
 
 export default function Contact() {
   const [status, setStatus] = useState<string | null>(null);
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
+
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -25,9 +31,13 @@ export default function Contact() {
       return;
     }
 
-    const data = { name, email, subject, message };
-
     try {
+      if (!recaptchaToken) {
+        setStatus("Please complete the reCAPTCHA.");
+        return;
+      }
+
+      const data = { name, email, subject, message, recaptchaToken };
       const response = await fetch(
         "https://eokrmh7kumz9ob7.m.pipedream.net",
         {
@@ -104,7 +114,11 @@ export default function Contact() {
               className="mt-1 block w-full border-black border-1"
             ></textarea>
           </label>
-
+          <ReCAPTCHA
+            sitekey={RECAPTCHA_SITE_KEY}
+            onChange={(token: string | null) => setRecaptchaToken(token)}
+            className="mb-4"
+          />
           <button
             type="submit"
             className="inline-block border border-black px-4 py-2 text-sm sm:text-base uppercase tracking-wide hover:bg-black hover:text-white transition-colors"

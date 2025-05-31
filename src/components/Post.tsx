@@ -27,7 +27,7 @@ export default function Post() {
         return;
       }
 
-      const raw = await loader();
+      const raw = await loader() as string;
       const parsed = fm<{ title: string; date: string }>(raw);
       setMeta({
         title: parsed.attributes.title,
@@ -55,7 +55,8 @@ export default function Post() {
   return (
     <BlogPost
       title={meta.title}
-      date={meta.date instanceof Date ? formatDate(meta.date) : meta.date}>
+      date={formatDate(new Date(meta.date))}
+    >
       <ReactMarkdown
         remarkPlugins={[remarkGfm, remarkMath]}
         rehypePlugins={[rehypeKatex]}
@@ -87,6 +88,6 @@ export default function Post() {
       >
         {content}
       </ReactMarkdown>
-    </BlogPost>
+    </BlogPost >
   );
 }
